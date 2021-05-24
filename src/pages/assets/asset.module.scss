@@ -1,0 +1,146 @@
+.assetContainer {
+  padding: 0 4rem;
+  height: calc(100vh - 6.5rem);
+  overflow-y: scroll;
+}
+
+.asset {
+  display: flex;
+  flex-direction: column;
+  padding: 3rem 2rem;
+  margin: 0 auto;
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 2rem;
+  }
+
+  .thumbnailContainer {
+    position: relative;
+
+    img {
+      border-radius: 1rem;
+    }
+
+    button {
+      width: 3rem;
+      height: 3rem;
+      border-radius: 0.75rem;
+      border: 0;
+      position: absolute;
+      z-index: 5;
+      font-size: 0;
+
+      transition: filter 0.2s;
+
+      &:first-child {
+        left: 0;
+        top: 50%;
+        background: var(--green);
+        transform: translate(-50%, -50%);
+      }
+
+      &:last-child {
+        right: 0;
+        top: 50%;
+        background: var(--green);
+        transform: translate(50%, -50%);
+      }
+
+      &:hover {
+        filter: brightness(0.9);
+      }
+    }
+  }
+
+  .assetDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .contentAssetDetails {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      align-items: center;
+
+      .metrics {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        gap: 5rem;
+
+        .metric {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          p {
+            align-items: justify;
+          }
+        }
+      }
+
+      .edit {
+        display: flex;
+        justify-content: flex-end;
+
+        a {
+          background-color: transparent;
+          color: #1890ff;
+          cursor: pointer;
+          outline: none;
+          text-decoration: none;
+          -webkit-text-decoration-skip: objects;
+          transition: color 0.3s;
+        }
+      }
+    }
+  }
+
+  header {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--gray-200);
+
+    h1 {
+      // margin-top: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    span {
+      display: inline-block;
+      font-size: 1rem;
+
+      & + span {
+        margin-left: 1rem;
+        padding-left: 1rem;
+        position: relative;
+
+        &::before {
+          content: "";
+          width: 4px;
+          height: 4px;
+          border-radius: 2px;
+          background: #ddd;
+          position: absolute;
+          left: 0;
+          top: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+
+    .err {
+      margin-top: 3rem;
+    }
+  }
+}
