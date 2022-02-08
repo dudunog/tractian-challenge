@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "antd": "^4.15.5",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "date-fns": "^2.21.1",
     "highcharts": "^9.1.0",
     "highcharts-react-official": "^3.0.0",
