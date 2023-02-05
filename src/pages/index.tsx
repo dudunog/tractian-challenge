@@ -213,14 +213,14 @@ export default function Home({ latestAssets, allAssets }: HomeProps) {
                     height={192}
                     src={asset.image}
                     alt={asset.name}
-                    objectFit="cover"
+                    style={{ objectFit: "cover" }}
                   />
 
                   <div className={styles.content}>
                     <div className={styles.assetDetails}>
                       <header>
                         <Link href={`/assets/${asset.id}`}>
-                          <a>{asset.name}</a>
+                          {asset.name}
                         </Link>
 
                         {asset.status == "inOperation" ? (
@@ -275,7 +275,7 @@ export default function Home({ latestAssets, allAssets }: HomeProps) {
         </ul>
 
         <div className={styles.aEspecific}>
-          <a href="/assets">Ver mais</a>
+          <Link href="/assets">Ver mais</Link>
         </div>
       </section>
     </div>

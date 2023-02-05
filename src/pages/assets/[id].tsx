@@ -195,6 +195,11 @@ function updateRPMChart(rpm) {
 }
 
 export default function Asset({ asset }: AssetProps) {
+  const assetModel = asset.model
+    .substring(0, 1)
+    .toUpperCase()
+    .concat(asset.model.substring(1))
+
   return (
     <div className={styles.assetContainer}>
       <div className={styles.asset}>
@@ -212,7 +217,8 @@ export default function Asset({ asset }: AssetProps) {
               width={300}
               height={350}
               src={asset.image}
-              objectFit="cover"
+              alt={assetModel}
+              style={{ objectFit: "cover" }}
             />
             <Link href={`/assets/edit/${asset.id}`}>
               <button type="button">
@@ -224,10 +230,7 @@ export default function Asset({ asset }: AssetProps) {
             <header>
               <h1>{asset.name}</h1>
               <span>
-                {asset.model
-                  .substring(0, 1)
-                  .toUpperCase()
-                  .concat(asset.model.substring(1))}
+                {assetModel}
               </span>
               <span>
                 {asset.status == "inAlert"

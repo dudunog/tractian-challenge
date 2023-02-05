@@ -203,14 +203,14 @@ export default function Home({ allAssets }: HomeProps) {
                     height={192}
                     src={asset.image}
                     alt={asset.name}
-                    objectFit="cover"
+                    style={{ objectFit: "cover" }}
                   />
 
                   <div className={styles.content}>
                     <div className={styles.assetDetails}>
                       <header>
                         <Link href={`/assets/${asset.id}`}>
-                          <a>{asset.name}</a>
+                          {asset.name}
                         </Link>
 
                         {asset.status == "inOperation" ? (

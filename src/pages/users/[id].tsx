@@ -111,7 +111,7 @@ export default function Company({ user, allUnits, allCompanies }: UserProps) {
             >
               <Select placeholder="Selecione a unidade">
                 {allUnits.map(unit => {
-                  return <Option value={unit.id}>{unit.name}</Option>;
+                  return <Option key={unit.id} value={unit.id}>{unit.name}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -123,7 +123,7 @@ export default function Company({ user, allUnits, allCompanies }: UserProps) {
             >
               <Select placeholder="Selecione a empresa">
                 {allCompanies.map(company => {
-                  return <Option value={company.id}>{company.name}</Option>;
+                  return <Option key={company.id} value={company.id}>{company.name}</Option>;
                 })}
               </Select>
             </Form.Item>

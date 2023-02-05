@@ -89,7 +89,7 @@ export default function Unit({ unit, allCompanies }: UnitProps) {
               <Select placeholder="Selecione a Empresa">
                 {allCompanies.map(company => {
                   return (
-                    <Option value={`${company.id}`}>{company.name}</Option>
+                    <Option key={company.id} value={`${company.id}`}>{company.name}</Option>
                   );
                 })}
               </Select>

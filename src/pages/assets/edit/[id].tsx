@@ -173,7 +173,7 @@ export default function Asset({ asset, allUnits, allCompanies }: AssetProps) {
                 defaultValue={["a10", "a20"]}
               >
                 {allUnits.map(unit => {
-                  return <Option value={unit.id}>{unit.name}</Option>;
+                  return <Option key={unit.id} value={unit.id}>{unit.name}</Option>;
                 })}
               </Select>
             </Form.Item>
@@ -185,7 +185,7 @@ export default function Asset({ asset, allUnits, allCompanies }: AssetProps) {
             >
               <Select placeholder="Selecione a empresa">
                 {allCompanies.map(company => {
-                  return <Option value={company.id}>{company.name}</Option>;
+                  return <Option key={company.id} value={company.id}>{company.name}</Option>;
                 })}
               </Select>
             </Form.Item>
