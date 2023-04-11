@@ -1,11 +1,9 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from "next/image"
+import Link from "next/link"
+import styles from "./styles.module.scss"
+import "rc-slider/assets/index.css"
 
-import "rc-slider/assets/index.css";
-
-import styles from "./styles.module.scss";
-
-export function Menu() {
+export const Menu = () => {
   return (
     <div className={styles.menuContainer}>
       <header>
@@ -72,5 +70,5 @@ export function Menu() {
         </nav>
       </header>
     </div>
-  );
+  )
 }

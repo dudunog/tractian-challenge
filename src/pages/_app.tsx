@@ -1,9 +1,8 @@
-import "../styles/global.scss";
+import { Header } from "../components/header/header"
+import { Menu } from "../components/menu/menu"
 
-import { Header } from "../components/Header";
-import { Menu } from "../components/Menu/Menu";
-
-import styles from "../styles/app.module.scss";
+import styles from "../styles/app.module.scss"
+import "../styles/global.scss"
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -17,4 +16,4 @@ function MyApp({ Component, pageProps }) {
   );
 }
 
-export default MyApp;
+export default MyApp

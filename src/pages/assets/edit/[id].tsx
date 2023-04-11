@@ -1,77 +1,77 @@
-import { GetStaticPaths, GetStaticProps } from "next";
-import { format, parseISO } from "date-fns";
-import ptBR from "date-fns/locale/pt-BR";
-import Head from "next/head";
+import { GetStaticPaths, GetStaticProps } from "next"
+import { format, parseISO } from "date-fns"
+import ptBR from "date-fns/locale/pt-BR"
+import Head from "next/head"
 
-import { api } from "../../../services/api";
+import { api } from "../../../services/api"
 
-import { Form, Input, Select, Button } from "antd";
-import "antd/dist/antd.css";
+import { Form, Input, Select, Button } from "antd"
+import "antd/dist/reset.css"
 
-const { Option } = Select;
+const { Option } = Select
 
-import styles from "./asset.module.scss";
+import styles from "./asset.module.scss"
 
 type Asset = {
-  id: string;
-  sensors: Sensors;
-  model: string;
-  status: string;
-  healthscore: number;
-  name: string;
-  image: string;
-  metrics: Metrics;
-  specifications: Specifications;
-  unitName: string;
-  companyName: string;
-  lastUptimeAt: string;
-};
+  id: string
+  sensors: Sensors
+  model: string
+  status: string
+  healthscore: number
+  name: string
+  image: string
+  metrics: Metrics
+  specifications: Specifications
+  unitName: string
+  companyName: string
+  lastUptimeAt: string
+}
 
 type Sensors = {
-  "0": string;
-};
+  "0": string
+}
 
 type Metrics = {
-  totalCollectsUptime: number;
-  totalUptime: number;
-  lastUptimeAt: string;
-};
+  totalCollectsUptime: number
+  totalUptime: number
+  lastUptimeAt: string
+}
 
 type Specifications = {
-  rpm?: number;
-  maxTemp: number;
-  power?: number;
-};
+  rpm?: number
+  maxTemp: number
+  power?: number
+}
 
 type Unit = {
-  id: number;
-  name: string;
-  companyId: number;
-  companyName: string;
-};
+  id: number
+  name: string
+  companyId: number
+  companyName: string
+}
 
 type Company = {
-  id: number;
-  name: string;
-};
+  id: number
+  name: string
+}
 
 type AssetProps = {
-  asset: Asset;
-  allUnits: Unit[];
-  allCompanies: Company[];
-};
+  asset: Asset
+  allUnits: Unit[]
+  allCompanies: Company[]
+}
 
 const layout = {
   labelCol: { span: 3 },
   wrapperCol: { span: 8 },
-};
+}
 
 const validateMessages = {
   required: "${label} é obrigatório!",
   types: {
     email: "${label} não é um email válido!",
   },
-};
+}
 
 const updateAsset = async (values: any) => {
   const { data } = await api.post("assets", {
@@ -88,8 +88,8 @@ const updateAsset = async (values: any) => {
       unitId: values.unitId,
       companyId: values.companyId,
     },
-  });
-};
+  })
+}
 
 export default function Asset({ asset, allUnits, allCompanies }: AssetProps) {
   return (
@@ -173,7 +173,7 @@ export default function Asset({ asset, allUnits, allCompanies }: AssetProps) {
                 defaultValue={["a10", "a20"]}
               >
                 {allUnits.map(unit => {
-                  return <Option key={unit.id} value={unit.id}>{unit.name}</Option>;
+                  return <Option key={unit.id} value={unit.id}>{unit.name}</Option>
                 })}
               </Select>
             </Form.Item>
@@ -185,7 +185,7 @@ export default function Asset({ asset, allUnits, allCompanies }: AssetProps) {
             >
               <Select placeholder="Selecione a empresa">
                 {allCompanies.map(company => {
-                  return <Option key={company.id} value={company.id}>{company.name}</Option>;
+                  return <Option key={company.id} value={company.id}>{company.name}</Option>
                 })}
               </Select>
             </Form.Item>
@@ -199,18 +199,18 @@ export default function Asset({ asset, allUnits, allCompanies }: AssetProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  var latestAssets = [];
+  var latestAssets = []
 
   const { data } = await api.get("assets", {
     params: {},
-  });
+  })
 
   for (let i = 0; i < 2; i++) {
-    latestAssets.push(data[i]);
+    latestAssets.push(data[i])
   }
 
   const paths = latestAssets.map(asset => {
@@ -218,44 +218,44 @@ export const getStaticPaths: GetStaticPaths = async () => {
       params: {
         id: asset.id.toString(),
       },
-    };
-  });
+    }
+  })
 
   return {
     paths,
     fallback: "blocking",
-  };
-};
+  }
+}
 
 export const getStaticProps: GetStaticProps = async ctx => {
-  const { id } = ctx.params;
+  const { id } = ctx.params
   const { data } = await api.get("assets", {
     params: {},
-  });
+  })
 
   async function getUnits() {
     const { data } = await api.get("units", {
       params: {},
-    });
-    return data;
+    })
+    return data
   }
 
   async function getCompanies() {
     const { data } = await api.get("companies", {
       params: {},
-    });
-    return data;
+    })
+    return data
   }
 
-  const units = await getUnits();
+  const units = await getUnits()
 
-  const companies = await getCompanies();
+  const companies = await getCompanies()
 
-  const resultUser = data.find(asset => asset.id == id);
-  const resultUnit = units.find(unit => unit.id == resultUser.unitId);
+  const resultUser = data.find(asset => asset.id == id)
+  const resultUnit = units.find(unit => unit.id == resultUser.unitId)
   const resultCompany = companies.find(
     company => company.id == resultUser.companyId
-  );
+  )
 
   const asset = {
     id: resultUser.id,
@@ -276,21 +276,21 @@ export const getStaticProps: GetStaticProps = async ctx => {
     ),
     unitName: resultUnit.name,
     companyName: resultCompany.name,
-  };
+  }
 
   const allUnits = units.map(unit => {
     return {
       id: unit.id,
       name: unit.name,
-    };
-  });
+    }
+  })
 
   const allCompanies = companies.map(company => {
     return {
       id: company.id,
       name: company.name,
-    };
-  });
+    }
+  })
 
   return {
     props: {
@@ -299,5 +299,5 @@ export const getStaticProps: GetStaticProps = async ctx => {
       allCompanies,
     },
     revalidate: 60 * 60 * 24,
-  };
-};
+  }
+}

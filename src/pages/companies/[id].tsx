@@ -4,7 +4,7 @@ import Head from "next/head";
 import { api } from "../../services/api";
 
 import { Form, Input, Button } from "antd";
-import "antd/dist/antd.css";
+import "antd/dist/reset.css";
 
 import styles from "./company.module.scss";
 

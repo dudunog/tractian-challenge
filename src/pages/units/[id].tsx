@@ -1,14 +1,10 @@
-import { GetStaticPaths, GetStaticProps } from "next";
-import Head from "next/head";
-
-import { api } from "../../services/api";
-
-import { Form, Input, Button, Select } from "antd";
-import "antd/dist/antd.css";
-
-const { Option } = Select;
-
-import styles from "./unit.module.scss";
+import { GetStaticPaths, GetStaticProps } from "next"
+import Head from "next/head"
+import { api } from "@/services/api"
+import { Form, Input, Button, Select } from "antd"
+const { Option } = Select
+import styles from "./unit.module.scss"
+import "antd/dist/reset.css"
 
 type Unit = {
   id: number;

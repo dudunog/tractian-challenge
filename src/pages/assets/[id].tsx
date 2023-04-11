@@ -1,59 +1,55 @@
-import { GetStaticPaths, GetStaticProps } from "next";
-import { format, parseISO } from "date-fns";
-import ptBR from "date-fns/locale/pt-BR";
-import Image from "next/image";
-import Head from "next/head";
-import Link from "next/link";
-
-import { api } from "../../services/api";
-
-import Highcharts from "highcharts";
-import highchartsMore from "highcharts/highcharts-more.js";
-import solidGauge from "highcharts/modules/solid-gauge.js";
-import HighchartsReact from "highcharts-react-official";
-
-import { FiChevronLeft, FiEdit2 } from "react-icons/fi";
-
-import styles from "./asset.module.scss";
+import { GetStaticPaths, GetStaticProps } from "next"
+import Image from "next/image"
+import Head from "next/head"
+import Link from "next/link"
+import { api } from "@/services/api"
+import Highcharts from "highcharts"
+import highchartsMore from "highcharts/highcharts-more.js"
+import solidGauge from "highcharts/modules/solid-gauge.js"
+import HighchartsReact from "highcharts-react-official"
+import { FiChevronLeft, FiEdit2 } from "react-icons/fi"
+import { format, parseISO } from "date-fns"
+import ptBR from "date-fns/locale/pt-BR"
+import styles from "./asset.module.scss"
 
 type Asset = {
-  id: string;
-  sensors: Sensors;
-  model: string;
-  status: string;
-  healthscore: number;
-  name: string;
-  image: string;
-  metrics: Metrics;
-  specifications: Specifications;
-  unitName: string;
-  companyName: string;
-  lastUptimeAt: string;
-};
+  id: string
+  sensors: Sensors
+  model: string
+  status: string
+  healthscore: number
+  name: string
+  image: string
+  metrics: Metrics
+  specifications: Specifications
+  unitName: string
+  companyName: string
+  lastUptimeAt: string
+}
 
 type Sensors = {
-  "0": string;
-};
+  "0": string
+}
 
 type Metrics = {
-  totalCollectsUptime: number;
-  totalUptime: number;
-  lastUptimeAt: string;
-};
+  totalCollectsUptime: number
+  totalUptime: number
+  lastUptimeAt: string
+}
 
 type Specifications = {
-  rpm?: number;
-  maxTemp: number;
-  power?: number;
-};
+  rpm?: number
+  maxTemp: number
+  power?: number
+}
 
 type AssetProps = {
-  asset: Asset;
-};
+  asset: Asset
+}
 
 if (typeof Highcharts === "object") {
-  highchartsMore(Highcharts);
-  solidGauge(Highcharts);
+  highchartsMore(Highcharts)
+  solidGauge(Highcharts)
 }
 
 function updatePowerChart(power) {
