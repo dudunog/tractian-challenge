@@ -7,44 +7,44 @@ import styles from "./users.module.scss"
 import "antd/dist/reset.css"
 
 type User = {
-  id: number;
-  email: string;
-  name: string;
-  unitId: number;
-  companyId: number;
-  unitName: string;
-  companyName: string;
-};
+  id: number
+  email: string
+  name: string
+  unitId: number
+  companyId: number
+  unitName: string
+  companyName: string
+}
 
 type Unit = {
-  id: number;
-  name: string;
-  companyId: number;
-  companyName: string;
-};
+  id: number
+  name: string
+  companyId: number
+  companyName: string
+}
 
 type Company = {
-  id: number;
-  name: string;
-};
+  id: number
+  name: string
+}
 
 type UserProps = {
-  user: User;
-  allUnits: Unit[];
-  allCompanies: Company[];
-};
+  user: User
+  allUnits: Unit[]
+  allCompanies: Company[]
+}
 
 const layout = {
   labelCol: { span: 3 },
   wrapperCol: { span: 8 },
-};
+}
 
 const validateMessages = {
   required: "${label} é obrigatório!",
   types: {
     email: "${label} não é um email válido!",
   },
-};
+}
 
 const updateUser = async (values: any) => {
   const { data } = await api.post("users", {
@@ -55,8 +55,8 @@ const updateUser = async (values: any) => {
       unitId: values.unitId,
       companyId: values.companyId,
     },
-  });
-};
+  })
+}
 
 export default function Company({ user, allUnits, allCompanies }: UserProps) {
   return (
@@ -107,7 +107,7 @@ export default function Company({ user, allUnits, allCompanies }: UserProps) {
             >
               <Select placeholder="Selecione a unidade">
                 {allUnits.map(unit => {
-                  return <Option key={unit.id} value={unit.id}>{unit.name}</Option>;
+                  return <Option key={unit.id} value={unit.id}>{unit.name}</Option>
                 })}
               </Select>
             </Form.Item>
@@ -119,7 +119,7 @@ export default function Company({ user, allUnits, allCompanies }: UserProps) {
             >
               <Select placeholder="Selecione a empresa">
                 {allCompanies.map(company => {
-                  return <Option key={company.id} value={company.id}>{company.name}</Option>;
+                  return <Option key={company.id} value={company.id}>{company.name}</Option>
                 })}
               </Select>
             </Form.Item>
@@ -133,18 +133,18 @@ export default function Company({ user, allUnits, allCompanies }: UserProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  var firstUsers = [];
+  var firstUsers = []
 
   const { data } = await api.get("users", {
     params: {},
-  });
+  })
 
   for (let i = 0; i < 2; i++) {
-    firstUsers.push(data[i]);
+    firstUsers.push(data[i])
   }
 
   const paths = firstUsers.map(user => {
@@ -152,45 +152,45 @@ export const getStaticPaths: GetStaticPaths = async () => {
       params: {
         id: user.id.toString(),
       },
-    };
-  });
+    }
+  })
 
   return {
     paths,
     fallback: "blocking",
-  };
-};
+  }
+}
 
 export const getStaticProps: GetStaticProps = async ctx => {
-  const { id } = ctx.params;
+  const { id } = ctx.params
 
   const { data } = await api.get("users", {
     params: {},
-  });
+  })
 
   async function getUnits() {
     const { data } = await api.get("units", {
       params: {},
-    });
-    return data;
+    })
+    return data
   }
 
   async function getCompanies() {
     const { data } = await api.get("companies", {
       params: {},
-    });
-    return data;
+    })
+    return data
   }
 
-  const units = await getUnits();
+  const units = await getUnits()
 
-  const companies = await getCompanies();
+  const companies = await getCompanies()
 
-  const resultUser = data.find(user => user.id == id);
-  const resultUnit = units.find(unit => unit.id == resultUser.unitId);
+  const resultUser = data.find(user => user.id == id)
+  const resultUnit = units.find(unit => unit.id == resultUser.unitId)
   const resultCompany = companies.find(
     company => company.id == resultUser.companyId
-  );
+  )
 
   const user = {
     id: resultUser.id,
@@ -200,21 +200,21 @@ export const getStaticProps: GetStaticProps = async ctx => {
     companyId: resultUser.companyId,
     unitName: resultUnit.name,
     companyName: resultCompany.name,
-  };
+  }
 
   const allUnits = units.map(unit => {
     return {
       id: unit.id,
       name: unit.name,
-    };
-  });
+    }
+  })
 
   const allCompanies = companies.map(company => {
     return {
       id: company.id,
       name: company.name,
-    };
-  });
+    }
+  })
 
   return {
     props: {
@@ -223,5 +223,5 @@ export const getStaticProps: GetStaticProps = async ctx => {
       allCompanies,
     },
     revalidate: 60 * 60 * 24,
-  };
-};
+  }
+}

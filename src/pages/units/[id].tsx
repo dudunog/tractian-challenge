@@ -7,33 +7,33 @@ import styles from "./unit.module.scss"
 import "antd/dist/reset.css"
 
 type Unit = {
-  id: number;
-  name: string;
-  companyId: number;
-  companyName: string;
-};
+  id: number
+  name: string
+  companyId: number
+  companyName: string
+}
 
 type Company = {
-  id: number;
-  name: string;
-};
+  id: number
+  name: string
+}
 
 type UnitProps = {
-  unit: Unit;
-  allCompanies: Company[];
-};
+  unit: Unit
+  allCompanies: Company[]
+}
 
 const layout = {
   labelCol: { span: 3 },
   wrapperCol: { span: 8 },
-};
+}
 
 const validateMessages = {
   required: "${label} é obrigatório!",
   types: {
     email: "${label} não é um email válido!",
   },
-};
+}
 
 const updateUnit = async (values: any) => {
   const { data } = await api.post("units", {
@@ -42,8 +42,8 @@ const updateUnit = async (values: any) => {
       name: values.name,
       companyId: values.companyId,
     },
-  });
-};
+  })
+}
 
 export default function Unit({ unit, allCompanies }: UnitProps) {
   return (
@@ -86,7 +86,7 @@ export default function Unit({ unit, allCompanies }: UnitProps) {
                 {allCompanies.map(company => {
                   return (
                     <Option key={company.id} value={`${company.id}`}>{company.name}</Option>
-                  );
+                  )
                 })}
               </Select>
             </Form.Item>
@@ -99,62 +99,62 @@ export default function Unit({ unit, allCompanies }: UnitProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { data } = await api.get("units", {
     params: {},
-  });
+  })
 
   const paths = data.map(unit => {
     return {
       params: {
         id: unit.id.toString(),
       },
-    };
-  });
+    }
+  })
 
   return {
     paths,
     fallback: "blocking",
-  };
-};
+  }
+}
 
 export const getStaticProps: GetStaticProps = async ctx => {
-  const { id } = ctx.params;
+  const { id } = ctx.params
 
   const { data } = await api.get("units", {
     params: {},
-  });
+  })
 
   async function getCompanies() {
     const { data } = await api.get("companies", {
       params: {},
-    });
-    return data;
+    })
+    return data
   }
 
-  const companies = await getCompanies();
+  const companies = await getCompanies()
 
-  const resultUnit = data.find(unit => unit.id == id);
+  const resultUnit = data.find(unit => unit.id == id)
   const resultCompany = companies.find(
     company => company.id == resultUnit.companyId
-  );
+  )
 
   const unit = {
     id: resultUnit.id,
     name: resultUnit.name,
     companyId: resultUnit.companyId,
     companyName: resultCompany.name,
-  };
+  }
 
   const allCompanies = companies.map(unit => {
     return {
       id: unit.id,
       name: unit.name,
-    };
-  });
+    }
+  })
 
   return {
     props: {
@@ -162,5 +162,5 @@ export const getStaticProps: GetStaticProps = async ctx => {
       allCompanies,
     },
     revalidate: 60 * 60 * 24,
-  };
-};
+  }
+}

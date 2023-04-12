@@ -118,7 +118,7 @@ function updatePowerChart(power) {
         },
       },
     ],
-  };
+  }
 }
 
 function updateRPMChart(rpm) {
@@ -187,7 +187,7 @@ function updateRPMChart(rpm) {
         },
       },
     ],
-  };
+  }
 }
 
 export default function Asset({ asset }: AssetProps) {
@@ -308,24 +308,24 @@ export default function Asset({ asset }: AssetProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 async function Assets() {
   return await api.get("assets", {
     params: {},
-  });
+  })
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  var latestAssets = [];
+  var latestAssets = []
 
   const { data } = await api.get("assets", {
     params: {},
-  });
+  })
 
   for (let i = 0; i < 2; i++) {
-    latestAssets.push(data[i]);
+    latestAssets.push(data[i])
   }
 
   const paths = latestAssets.map(asset => {
@@ -333,30 +333,30 @@ export const getStaticPaths: GetStaticPaths = async () => {
       params: {
         id: asset.id.toString(),
       },
-    };
-  });
+    }
+  })
 
   return {
     paths,
     fallback: "blocking",
-  };
-};
+  }
+}
 
 export const getStaticProps: GetStaticProps = async ctx => {
-  const { id } = ctx.params;
+  const { id } = ctx.params
   const { data } = await api.get("assets", {
     params: {},
-  });
+  })
 
-  const result = data.find(element => element.id == id);
+  const result = data.find(element => element.id == id)
 
   async function getNameUnit(id) {
     const { data } = await api.get("units/", {
       params: {
         id: id,
       },
-    });
-    return data[0].name;
+    })
+    return data[0].name
   }
 
   async function getNameCompany(id) {
@@ -364,8 +364,8 @@ export const getStaticProps: GetStaticProps = async ctx => {
       params: {
         id: id,
       },
-    });
-    return data[0].name;
+    })
+    return data[0].name
   }
 
   const asset = {
@@ -383,12 +383,12 @@ export const getStaticProps: GetStaticProps = async ctx => {
     }),
     unitName: await getNameUnit(result.unitId),
     companyName: await getNameCompany(result.companyId),
-  };
+  }
 
   return {
     props: {
       asset,
     },
     revalidate: 60 * 60 * 24,
-  };
-};
+  }
+}

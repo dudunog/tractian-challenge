@@ -7,16 +7,16 @@ import styles from "./users.module.scss"
 import "antd/dist/reset.css"
 
 type User = {
-  id: number;
-  email: string;
-  name: string;
-  unitId: number;
-  companyId: number;
-};
+  id: number
+  email: string
+  name: string
+  unitId: number
+  companyId: number
+}
 
 type UserProps = {
-  allUsers: User[];
-};
+  allUsers: User[]
+}
 
 async function deleteUser(id) {
   //   Comentei para não quebrar a aplicação, pois a rota da api não funciona
@@ -24,7 +24,7 @@ async function deleteUser(id) {
   //     params: {
   //       id: id,
   //     },
-  //   });
+  //   })
 }
 
 const columns = [
@@ -65,7 +65,7 @@ const columns = [
       </Space>
     ),
   },
-];
+]
 
 export default function User({ allUsers }: UserProps) {
   return (
@@ -84,44 +84,44 @@ export default function User({ allUsers }: UserProps) {
         />
       </section>
     </div>
-  );
+  )
 }
 
 export const getStaticProps: GetStaticProps = async () => {
   const { data } = await api.get("users", {
     params: {},
-  });
+  })
 
   async function getUnits() {
     const { data } = await api.get("units", {
       params: {},
-    });
-    return data;
+    })
+    return data
   }
 
   async function getCompanies() {
     const { data } = await api.get("companies", {
       params: {},
-    });
-    return data;
+    })
+    return data
   }
 
-  const units = await getUnits();
-  const companies = await getCompanies();
+  const units = await getUnits()
+  const companies = await getCompanies()
 
   function getNameUnit(id) {
-    const unit = units.find(unit => unit.id === id);
-    return unit.name;
+    const unit = units.find(unit => unit.id === id)
+    return unit.name
   }
 
   function getNameCompany(id) {
-    const company = companies.find(company => company.id === id);
-    return company.name;
+    const company = companies.find(company => company.id === id)
+    return company.name
   }
 
   const allUsers = data.map(user => {
-    const companyName = getNameCompany(user.companyId);
-    const unitName = getNameUnit(user.unitId);
+    const companyName = getNameCompany(user.companyId)
+    const unitName = getNameUnit(user.unitId)
     return {
       id: user.id,
       name: user.name,
@@ -130,13 +130,13 @@ export const getStaticProps: GetStaticProps = async () => {
       companyId: user.companyId,
       unitName: unitName,
       companyName: companyName,
-    };
-  });
+    }
+  })
 
   return {
     props: {
       allUsers,
     },
     revalidate: 60 * 60 * 8,
-  };
-};
+  }
+}

@@ -7,16 +7,16 @@ import "antd/dist/reset.css"
 import styles from "./unit.module.scss"
 
 type Unit = {
-  id: number;
-  name: string;
-  companyId: number;
-  companyName: string;
-};
+  id: number
+  name: string
+  companyId: number
+  companyName: string
+}
 
 type UnitProps = {
-  units: Unit[];
-  allUnits: Unit[];
-};
+  units: Unit[]
+  allUnits: Unit[]
+}
 
 async function deleteUnit(id) {
   //Comentei para não quebrar a aplicação, pois a rota da api não funciona
@@ -24,7 +24,7 @@ async function deleteUnit(id) {
   //   params: {
   //     id: id,
   //   },
-  // });
+  // })
 }
 
 const columns = [
@@ -55,7 +55,7 @@ const columns = [
       </Space>
     ),
   },
-];
+]
 
 export default function Unit({ allUnits }: UnitProps) {
   return (
@@ -70,41 +70,41 @@ export default function Unit({ allUnits }: UnitProps) {
         <Table columns={columns} dataSource={allUnits} />
       </section>
     </div>
-  );
+  )
 }
 
 export const getStaticProps: GetStaticProps = async () => {
   const { data } = await api.get("units", {
     params: {},
-  });
+  })
 
   async function getCompanies() {
     const { data } = await api.get("companies", {
       params: {},
-    });
-    return data;
+    })
+    return data
   }
 
-  const companies = await getCompanies();
+  const companies = await getCompanies()
 
   function getNameCompany(id) {
-    const company = companies.find(company => company.id == id);
-    return company.name;
+    const company = companies.find(company => company.id == id)
+    return company.name
   }
 
   const allUnits = data.map(unit => {
-    var companyName = getNameCompany(unit.companyId);
+    var companyName = getNameCompany(unit.companyId)
     return {
       id: unit.id,
       name: unit.name,
       companyName: companyName,
-    };
-  });
+    }
+  })
 
   return {
     props: {
       allUnits,
     },
     revalidate: 60 * 60 * 8,
-  };
-};
+  }
+}

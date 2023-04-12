@@ -6,25 +6,25 @@ import styles from "./company.module.scss"
 import "antd/dist/reset.css"
 
 type Company = {
-  id: number;
-  name: string;
-};
+  id: number
+  name: string
+}
 
 type CompanyProps = {
-  company: Company;
-};
+  company: Company
+}
 
 const layout = {
   labelCol: { span: 2 },
   wrapperCol: { span: 8 },
-};
+}
 
 const validateMessages = {
   required: "${label} é obrigatório!",
   types: {
     email: "${label} não é um email válido!",
   },
-};
+}
 
 const updateCompany = async (values: any) => {
   const { data } = await api.post("companies", {
@@ -32,8 +32,8 @@ const updateCompany = async (values: any) => {
       id: values.id,
       name: values.name,
     },
-  });
-};
+  })
+}
 
 export default function Company({ company }: CompanyProps) {
   return (
@@ -76,45 +76,45 @@ export default function Company({ company }: CompanyProps) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { data } = await api.get("companies", {
     params: {},
-  });
+  })
 
   const paths = data.map(company => {
     return {
       params: {
         id: company.id.toString(),
       },
-    };
-  });
+    }
+  })
 
   return {
     paths,
     fallback: "blocking",
-  };
-};
+  }
+}
 
 export const getStaticProps: GetStaticProps = async ctx => {
-  const { id } = ctx.params;
+  const { id } = ctx.params
   const { data } = await api.get("companies", {
     params: {},
-  });
+  })
 
-  const result = data.find(element => element.id == id);
+  const result = data.find(element => element.id == id)
 
   const company = {
     id: result.id,
     name: result.name,
-  };
+  }
 
   return {
     props: {
       company,
     },
-    revalidate: 60 * 60 * 24, //24 hours
-  };
-};
+    revalidate: 60 * 60 * 24, // 24 hours
+  }
+}

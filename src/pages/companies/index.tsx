@@ -7,14 +7,14 @@ import styles from "./company.module.scss"
 import "antd/dist/reset.css"
 
 type Company = {
-  id: number;
-  name: string;
-};
+  id: number
+  name: string
+}
 
 type CompanyProps = {
-  companies: Company[];
-  allCompanies: Company[];
-};
+  companies: Company[]
+  allCompanies: Company[]
+}
 
 async function deleteCompany(id) {
   // Comentei para não quebrar a aplicação, pois a rota da api não funciona
@@ -22,7 +22,7 @@ async function deleteCompany(id) {
   //   params: {
   //     id: id,
   //   },
-  // });
+  // })
 }
 
 const columns = [
@@ -48,7 +48,7 @@ const columns = [
       </Space>
     ),
   },
-];
+]
 
 export default function Company({ allCompanies }: CompanyProps) {
   return (
@@ -66,25 +66,25 @@ export default function Company({ allCompanies }: CompanyProps) {
         />
       </section>
     </div>
-  );
+  )
 }
 
 export const getStaticProps: GetStaticProps = async () => {
   const { data } = await api.get("companies", {
     params: {},
-  });
+  })
 
   const allCompanies = data.map(company => {
     return {
       id: company.id,
       name: company.name,
-    };
-  });
+    }
+  })
 
   return {
     props: {
       allCompanies,
     },
     revalidate: 60 * 60 * 8,
-  };
-};
+  }
+}
