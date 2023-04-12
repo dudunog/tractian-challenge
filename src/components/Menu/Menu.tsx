@@ -3,7 +3,7 @@ import Link from "next/link"
 import styles from "./styles.module.scss"
 import "rc-slider/assets/index.css"
 
-const Menu = () => {
+const Menu: React.FC = () => {
   return (
     <div className={styles.menuContainer}>
       <header>
