@@ -1,5 +1,5 @@
-import { GetStaticPaths, GetStaticProps } from "next"
 import Head from "next/head"
+import { GetStaticPaths, GetStaticProps } from "next"
 import { Asset, Company, Unit } from "@/domain/models"
 import { api } from "@/services/api"
 import { Form, Input, Select, Button } from "antd"
@@ -27,8 +27,8 @@ const validateMessages = {
   },
 }
 
-const updateAsset = async (values: any) => {
-  const { data } = await api.post("assets", {
+const updateAsset = async (values: Asset) => {
+  await api.post("assets", {
     params: {
       id: values.id,
       sensors: values.sensors,
@@ -45,7 +45,7 @@ const updateAsset = async (values: any) => {
   })
 }
 
-export default function Asset({ asset, allUnits, allCompanies }: AssetProps) {
+const Asset = ({ asset, allUnits, allCompanies }: AssetProps) => {
   return (
     <div className={styles.assetContainer}>
       <Head>
@@ -156,16 +156,11 @@ export default function Asset({ asset, allUnits, allCompanies }: AssetProps) {
   )
 }
 
+export default Asset
+
 export const getStaticPaths: GetStaticPaths = async () => {
-  var latestAssets = []
-
-  const { data } = await api.get("assets", {
-    params: {},
-  })
-
-  for (let i = 0; i < 2; i++) {
-    latestAssets.push(data[i])
-  }
+  const { data } = await api.get<any[]>("assets")
+  const latestAssets = data.slice(0, 2)
 
   const paths = latestAssets.map(asset => {
     return {
@@ -183,68 +178,55 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ctx => {
   const { id } = ctx.params
-  const { data } = await api.get("assets", {
-    params: {},
-  })
+  const { data } = await api.get("assets")
 
-  async function getUnits() {
-    const { data } = await api.get("units", {
-      params: {},
-    })
+  const getUnits = async () => {
+    const { data } = await api.get("units")
+
     return data
   }
 
-  async function getCompanies() {
-    const { data } = await api.get("companies", {
-      params: {},
-    })
+  const getCompanies = async () => {
+    const { data } = await api.get("companies")
+
     return data
   }
 
   const units = await getUnits()
-
   const companies = await getCompanies()
 
-  const resultUser = data.find(asset => asset.id == id)
-  const resultUnit = units.find(unit => unit.id == resultUser.unitId)
-  const resultCompany = companies.find(
-    company => company.id == resultUser.companyId
-  )
+  const resultAsset: Asset = data.find(asset => asset.id == id)
+  const resultUnit: Unit = units.find(unit => unit.id == resultAsset.unitId)
+  const resultCompany: Company = companies.find(company =>
+    company.id == resultAsset.companyId)
 
-  const asset = {
-    id: resultUser.id,
-    sensors: resultUser.sensors,
-    model: resultUser.model,
-    status: resultUser.status,
-    healthscore: resultUser.healthscore,
-    name: resultUser.name,
-    image: resultUser.image,
-    specifications: resultUser.specifications,
-    metrics: resultUser.metrics,
+  const asset: Asset = {
+    id: resultAsset.id,
+    sensors: resultAsset.sensors,
+    model: resultAsset.model,
+    status: resultAsset.status,
+    healthscore: resultAsset.healthscore,
+    name: resultAsset.name,
+    image: resultAsset.image,
+    specifications: resultAsset.specifications,
+    metrics: resultAsset.metrics,
     lastUptimeAt: format(
-      parseISO(resultUser.metrics.lastUptimeAt),
-      "d MMM yy",
-      {
-        locale: ptBR,
-      }
+      parseISO(resultAsset.metrics.lastUptimeAt),
+      "d MMM yy", { locale: ptBR, }
     ),
     unitName: resultUnit.name,
     companyName: resultCompany.name,
   }
 
-  const allUnits = units.map(unit => {
-    return {
-      id: unit.id,
-      name: unit.name,
-    }
-  })
+  const allUnits = units.map(unit => ({
+    id: unit.id,
+    name: unit.name
+  }))
 
-  const allCompanies = companies.map(company => {
-    return {
-      id: company.id,
-      name: company.name,
-    }
-  })
+  const allCompanies = companies.map(company => ({
+    id: company.id,
+    name: company.name
+  }))
 
   return {
     props: {

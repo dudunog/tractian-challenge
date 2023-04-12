@@ -2,7 +2,7 @@ import { Header, Menu } from "@/components"
 import styles from "@/styles/app.module.scss"
 import "@/styles/global.scss"
 
-function MyApp({ Component, pageProps }) {
+const MyApp = ({ Component, pageProps }) => {
   return (
     <div className={styles.wrapper}>
       <Menu />

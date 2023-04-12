@@ -22,7 +22,7 @@ if (typeof Highcharts === "object") {
   solidGauge(Highcharts)
 }
 
-function updatePowerChart(power) {
+const updatePowerChart = (power) => {
   return {
     chart: {
       backgroundColor: "#f7f8fa",
@@ -91,7 +91,7 @@ function updatePowerChart(power) {
   }
 }
 
-function updateRPMChart(rpm) {
+const updateRPMChart = (rpm) => {
   return {
     chart: {
       backgroundColor: "#f7f8fa",
@@ -283,22 +283,9 @@ const Asset = ({ asset }: AssetProps) => {
 
 export default Asset
 
-async function Assets() {
-  return await api.get("assets", {
-    params: {},
-  })
-}
-
 export const getStaticPaths: GetStaticPaths = async () => {
-  var latestAssets = []
-
-  const { data } = await api.get("assets", {
-    params: {},
-  })
-
-  for (let i = 0; i < 2; i++) {
-    latestAssets.push(data[i])
-  }
+  const { data } = await api.get<any[]>("assets")
+  const latestAssets = data.slice(0, 2)
 
   const paths = latestAssets.map(asset => {
     return {
@@ -316,31 +303,31 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ctx => {
   const { id } = ctx.params
-  const { data } = await api.get("assets", {
-    params: {},
-  })
+  const { data } = await api.get("assets")
 
-  const result = data.find(element => element.id == id)
+  const result = data.find(asset => asset.id == id)
 
-  async function getNameUnit(id) {
+  const getNameUnit = async (id: number) => {
     const { data } = await api.get("units/", {
       params: {
-        id: id,
+        id,
       },
     })
+
     return data[0].name
   }
 
-  async function getNameCompany(id) {
+  const getNameCompany = async (id: number) => {
     const { data } = await api.get("companies", {
       params: {
-        id: id,
+        id,
       },
     })
+
     return data[0].name
   }
 
-  const asset = {
+  const asset: Asset = {
     id: result.id,
     sensors: result.sensors,
     model: result.model,
