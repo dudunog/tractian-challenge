@@ -1,16 +1,12 @@
 import { GetStaticPaths, GetStaticProps } from "next"
+import Head from "next/head"
+import { api } from "@/services/api"
+import { Form, Input, Select, Button } from "antd"
+const { Option } = Select
 import { format, parseISO } from "date-fns"
 import ptBR from "date-fns/locale/pt-BR"
-import Head from "next/head"
-
-import { api } from "../../../services/api"
-
-import { Form, Input, Select, Button } from "antd"
-import "antd/dist/reset.css"
-
-const { Option } = Select
-
 import styles from "./asset.module.scss"
+import "antd/dist/reset.css"
 
 type Asset = {
   id: string

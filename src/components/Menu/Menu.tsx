@@ -3,7 +3,7 @@ import Link from "next/link"
 import styles from "./styles.module.scss"
 import "rc-slider/assets/index.css"
 
-export const Menu = () => {
+const Menu = () => {
   return (
     <div className={styles.menuContainer}>
       <header>
@@ -72,3 +72,5 @@ export const Menu = () => {
     </div>
   )
 }
+
+export default Menu

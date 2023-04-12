@@ -2,7 +2,7 @@ import { GetStaticProps } from "next"
 import Head from "next/head"
 import { api } from "@/services/api"
 import { AssetList } from "@/components"
-import styles from "../home.module.scss"
+import styles from "@/pages/home.module.scss"
 
 export type Asset = {
   id: string

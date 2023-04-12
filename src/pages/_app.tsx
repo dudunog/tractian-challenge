@@ -1,8 +1,6 @@
-import { Header } from "../components/header/header"
-import { Menu } from "../components/menu/menu"
-
-import styles from "../styles/app.module.scss"
-import "../styles/global.scss"
+import { Header, Menu } from "@/components"
+import styles from "@/styles/app.module.scss"
+import "@/styles/global.scss"
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -13,7 +11,7 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
       </main>
     </div>
-  );
+  )
 }
 
 export default MyApp

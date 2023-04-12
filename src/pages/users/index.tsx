@@ -1,13 +1,10 @@
-import { GetStaticProps } from "next";
-import Head from "next/head";
-import Link from "next/link";
-
-import { api } from "../../services/api";
-
-import { Table, Space, Popconfirm } from "antd";
-import "antd/dist/reset.css";
-
-import styles from "./users.module.scss";
+import { GetStaticProps } from "next"
+import Head from "next/head"
+import Link from "next/link"
+import { api } from "@/services/api"
+import { Table, Space, Popconfirm } from "antd"
+import styles from "./users.module.scss"
+import "antd/dist/reset.css"
 
 type User = {
   id: number;

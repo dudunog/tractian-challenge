@@ -1,12 +1,9 @@
-import { GetStaticPaths, GetStaticProps } from "next";
-import Head from "next/head";
-
-import { api } from "../../services/api";
-
-import { Form, Input, Button } from "antd";
-import "antd/dist/reset.css";
-
-import styles from "./company.module.scss";
+import { GetStaticPaths, GetStaticProps } from "next"
+import Head from "next/head"
+import { api } from "@/services/api"
+import { Form, Input, Button } from "antd"
+import styles from "./company.module.scss"
+import "antd/dist/reset.css"
 
 type Company = {
   id: number;
