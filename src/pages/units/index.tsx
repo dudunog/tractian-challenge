@@ -1,17 +1,11 @@
 import { GetStaticProps } from "next"
 import Head from "next/head"
 import Link from "next/link"
+import { Unit } from "@/domain/models"
 import { api } from "@/services/api"
 import { Table, Space, Popconfirm } from "antd"
-import "antd/dist/reset.css"
 import styles from "./unit.module.scss"
-
-type Unit = {
-  id: number
-  name: string
-  companyId: number
-  companyName: string
-}
+import "antd/dist/reset.css"
 
 type UnitProps = {
   units: Unit[]

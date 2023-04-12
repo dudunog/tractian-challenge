@@ -1,5 +1,5 @@
 import { AssetItem } from "@/components"
-import { Asset } from "@/pages/assets"
+import { Asset } from "@/domain/models"
 import styles from "./asset-list.module.scss"
 
 type AssetListProps = {

@@ -2,6 +2,7 @@ import { GetStaticPaths, GetStaticProps } from "next"
 import Image from "next/image"
 import Head from "next/head"
 import Link from "next/link"
+import { Asset } from "@/domain/models"
 import { api } from "@/services/api"
 import Highcharts from "highcharts"
 import highchartsMore from "highcharts/highcharts-more.js"
@@ -11,37 +12,6 @@ import { FiChevronLeft, FiEdit2 } from "react-icons/fi"
 import { format, parseISO } from "date-fns"
 import ptBR from "date-fns/locale/pt-BR"
 import styles from "./asset.module.scss"
-
-type Asset = {
-  id: string
-  sensors: Sensors
-  model: string
-  status: string
-  healthscore: number
-  name: string
-  image: string
-  metrics: Metrics
-  specifications: Specifications
-  unitName: string
-  companyName: string
-  lastUptimeAt: string
-}
-
-type Sensors = {
-  "0": string
-}
-
-type Metrics = {
-  totalCollectsUptime: number
-  totalUptime: number
-  lastUptimeAt: string
-}
-
-type Specifications = {
-  rpm?: number
-  maxTemp: number
-  power?: number
-}
 
 type AssetProps = {
   asset: Asset
@@ -190,7 +160,7 @@ function updateRPMChart(rpm) {
   }
 }
 
-export default function Asset({ asset }: AssetProps) {
+const Asset = ({ asset }: AssetProps) => {
   const assetModel = asset.model
     .substring(0, 1)
     .toUpperCase()
@@ -310,6 +280,8 @@ export default function Asset({ asset }: AssetProps) {
     </div>
   )
 }
+
+export default Asset
 
 async function Assets() {
   return await api.get("assets", {

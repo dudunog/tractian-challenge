@@ -1,32 +1,11 @@
 import { GetStaticPaths, GetStaticProps } from "next"
 import Head from "next/head"
+import { Company, Unit, User } from "@/domain/models"
 import { api } from "@/services/api"
 import { Form, Input, Button, Select } from "antd"
 const { Option } = Select
 import styles from "./users.module.scss"
 import "antd/dist/reset.css"
-
-type User = {
-  id: number
-  email: string
-  name: string
-  unitId: number
-  companyId: number
-  unitName: string
-  companyName: string
-}
-
-type Unit = {
-  id: number
-  name: string
-  companyId: number
-  companyName: string
-}
-
-type Company = {
-  id: number
-  name: string
-}
 
 type UserProps = {
   user: User

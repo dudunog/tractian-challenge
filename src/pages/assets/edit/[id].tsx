@@ -1,5 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from "next"
 import Head from "next/head"
+import { Asset, Company, Unit } from "@/domain/models"
 import { api } from "@/services/api"
 import { Form, Input, Select, Button } from "antd"
 const { Option } = Select
@@ -7,49 +8,6 @@ import { format, parseISO } from "date-fns"
 import ptBR from "date-fns/locale/pt-BR"
 import styles from "./asset.module.scss"
 import "antd/dist/reset.css"
-
-type Asset = {
-  id: string
-  sensors: Sensors
-  model: string
-  status: string
-  healthscore: number
-  name: string
-  image: string
-  metrics: Metrics
-  specifications: Specifications
-  unitName: string
-  companyName: string
-  lastUptimeAt: string
-}
-
-type Sensors = {
-  "0": string
-}
-
-type Metrics = {
-  totalCollectsUptime: number
-  totalUptime: number
-  lastUptimeAt: string
-}
-
-type Specifications = {
-  rpm?: number
-  maxTemp: number
-  power?: number
-}
-
-type Unit = {
-  id: number
-  name: string
-  companyId: number
-  companyName: string
-}
-
-type Company = {
-  id: number
-  name: string
-}
 
 type AssetProps = {
   asset: Asset

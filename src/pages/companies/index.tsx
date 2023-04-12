@@ -1,15 +1,11 @@
 import { GetStaticProps } from "next"
 import Head from "next/head"
 import Link from "next/link"
+import { Company } from "@/domain/models"
 import { api } from "@/services/api"
 import { Table, Space, Popconfirm } from "antd"
 import styles from "./company.module.scss"
 import "antd/dist/reset.css"
-
-type Company = {
-  id: number
-  name: string
-}
 
 type CompanyProps = {
   companies: Company[]

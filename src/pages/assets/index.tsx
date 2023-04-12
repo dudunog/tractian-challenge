@@ -1,39 +1,9 @@
 import { GetStaticProps } from "next"
 import Head from "next/head"
+import { Asset } from "@/domain/models"
 import { api } from "@/services/api"
 import { AssetList } from "@/components"
 import styles from "@/pages/home.module.scss"
-
-export type Asset = {
-  id: string
-  sensors: Sensors
-  model: string
-  status: string
-  healthscore: number
-  name: string
-  image: string
-  metrics: Metrics
-  specifications: Specifications
-  unitId: string
-  companyId: string
-  lastUptimeAt: string
-}
-
-type Sensors = {
-  "0": string
-}
-
-type Metrics = {
-  totalCollectsUptime: number
-  totalUptime: number
-  lastUptimeAt: string
-}
-
-type Specifications = {
-  maxTemp?: number
-  rpm?: number
-  power?: number
-}
 
 type HomeProps = {
   assets: Asset[]

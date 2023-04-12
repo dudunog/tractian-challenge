@@ -1,6 +1,7 @@
 import { GetStaticProps } from "next"
 import Head from "next/head"
 import Link from "next/link"
+import { Asset } from "@/domain/models"
 import { AssetList } from "@/components"
 import { api } from "@/services/api"
 import Highcharts from "highcharts"
@@ -8,50 +9,22 @@ import HighchartsReact from "highcharts-react-official"
 import styles from "./home.module.scss"
 import "antd/dist/reset.css"
 
-type Asset = {
-  id: string
-  sensors: Sensors
-  model: string
-  status: string
-  healthscore: number
-  name: string
-  image: string
-  metrics: Metrics
-  specifications: Specifications
-  unitId: string
-  companyId: string
-  lastUptimeAt: string
-}
-
-type Sensors = {
-  "0": string
-}
-
-type Metrics = {
-  totalCollectsUptime: number
-  totalUptime: number
-  lastUptimeAt: string
-}
-
-type Specifications = {
-  rpm?: number
-  maxTemp: number
-  power?: number
-}
-
 type HomeProps = {
   assets: Asset[]
   latestAssets: Asset[]
   allAssets: Asset[]
 }
 
-function updateHealthChart(statusInAlert, statusInDowntime, statusInOperation) {
+const updateHealthChart = (
+  statusInAlert,
+  statusInDowntime,
+  statusInOperation
+) => {
   return {
     chart: {
       backgroundColor: "#f7f8fa",
       plotBorderWidth: null,
       plotShadow: false,
-      //renderTo: "container",
       type: "pie",
       width: 440,
       height: 300,
@@ -62,7 +35,6 @@ function updateHealthChart(statusInAlert, statusInDowntime, statusInOperation) {
     credits: false,
     tooltip: {
       pointFormat: "<b>{point.percentage:.1f}%</b>",
-      //valueSuffix: "",
     },
     accessibility: {
       point: {
@@ -117,19 +89,16 @@ function updateHealthChart(statusInAlert, statusInDowntime, statusInOperation) {
   }
 }
 
-export default function Home({ latestAssets, allAssets }: HomeProps) {
+const Home = ({ latestAssets, allAssets }: HomeProps) => {
   var statusInAlert = 0
   var statusInDowntime = 0
   var statusInOperation = 0
-  var amountAssets = allAssets.length
   var totalHealthscoreInAlert = 0
   var totalHealthscoreInDowntime = 0
   var totalHealthscoreInOperation = 0
-  var totalPower = 0
   var averageHealthscoreInAlert = 0
   var averageHealthscoreInDowntime = 0
   var averageHealthscoreInOperation = 0
-  var averagePower = 0
 
   allAssets.map(asset => {
     if (asset.status == "inAlert") {
@@ -175,17 +144,17 @@ export default function Home({ latestAssets, allAssets }: HomeProps) {
 
             <div className={styles.statistics}>
               <div className={styles.statistic}>
-                <h2>{averageHealthscoreInOperation.toFixed()}&#8451</h2>
+                <h2>{averageHealthscoreInOperation.toFixed()}&#8451;</h2>
                 <p>Ativos em operação</p>
               </div>
 
               <div className={styles.statistic}>
-                <h2>{averageHealthscoreInAlert.toFixed()}&#8451</h2>
+                <h2>{averageHealthscoreInAlert.toFixed()}&#8451;</h2>
                 <p>Ativos em alerta</p>
               </div>
 
               <div className={styles.statistic}>
-                <h2>{averageHealthscoreInDowntime.toFixed()}&#8451</h2>
+                <h2>{averageHealthscoreInDowntime.toFixed()}&#8451;</h2>
                 <p>Ativos em parada</p>
               </div>
             </div>
@@ -206,11 +175,10 @@ export default function Home({ latestAssets, allAssets }: HomeProps) {
   )
 }
 
+export default Home
+
 export const getStaticProps: GetStaticProps = async () => {
-  //Biblioteca axios para fazer requisições HTTP
-  const { data } = await api.get("assets", {
-    params: {},
-  })
+  const { data } = await api.get("assets")
 
   const allAssets = data.map(asset => {
     return {
@@ -220,8 +188,7 @@ export const getStaticProps: GetStaticProps = async () => {
       healthscore: asset.healthscore,
       name: asset.name,
       image: asset.image,
-      specifications: asset.specifications,
-      unitId: asset.unitId,
+      specifications: asset.specifications
     }
   })
 

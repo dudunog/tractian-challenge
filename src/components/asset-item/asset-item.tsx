@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { Asset } from "@/pages/assets"
+import { Asset } from "@/domain/models"
 import { FiAlertCircle, FiAlertTriangle, FiActivity } from "react-icons/fi"
 import { Tag, Progress } from "antd"
 import styles from "./asset-item.module.scss"
