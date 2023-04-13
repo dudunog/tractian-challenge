@@ -12,7 +12,7 @@ type CompanyProps = {
   allCompanies: Company[]
 }
 
-async function deleteCompany(id) {
+const deleteCompany = async (id) => {
   // Comentei para não quebrar a aplicação, pois a rota da api não funciona
   // const { data } = await api.delete("companies", {
   //   params: {
@@ -46,14 +46,14 @@ const columns = [
   },
 ]
 
-export default function Company({ allCompanies }: CompanyProps) {
+const Company = ({ allCompanies }: CompanyProps) => {
   return (
     <div className={styles.companyContainer}>
       <Head>
         <title>Empresas | Tractian</title>
       </Head>
 
-      <section className={styles.companies}>
+      <section>
         <h2>Empresas</h2>
         <Table
           className={styles.table}
@@ -65,17 +65,15 @@ export default function Company({ allCompanies }: CompanyProps) {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
-  const { data } = await api.get("companies", {
-    params: {},
-  })
+export default Company
 
-  const allCompanies = data.map(company => {
-    return {
-      id: company.id,
-      name: company.name,
-    }
-  })
+export const getStaticProps: GetStaticProps = async () => {
+  const { data } = await api.get<Company[]>("companies")
+
+  const allCompanies = data.map(company => ({
+    id: company.id,
+    name: company.name,
+  }))
 
   return {
     props: {

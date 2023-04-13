@@ -32,19 +32,19 @@ const AssetItem: React.FC<AssetItemProps> = ({ asset }) => {
                 <FiActivity
                   size={30}
                   color="#2ecc71"
-                  title={"Em operação"}
+                  title="Em operação"
                 />
               ) : asset.status == "inAlert" ? (
                 <FiAlertTriangle
                   size={30}
                   color="#f1c40f"
-                  title={"Em alerta"}
+                  title="Em alerta"
                 />
               ) : (
                 <FiAlertCircle
                   size={30}
                   color="#e74c3c"
-                  title={"Em tempo de inatividade"}
+                  title="Em tempo de inatividade"
                 />
               )}
             </header>

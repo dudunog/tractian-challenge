@@ -23,7 +23,7 @@ const validateMessages = {
 }
 
 const updateCompany = async (values: any) => {
-  const { data } = await api.post("companies", {
+  await api.post("companies", {
     params: {
       id: values.id,
       name: values.name,
@@ -31,7 +31,7 @@ const updateCompany = async (values: any) => {
   })
 }
 
-export default function Company({ company }: CompanyProps) {
+const Company = ({ company }: CompanyProps) => {
   return (
     <div className={styles.companyContainer}>
       <Head>
@@ -53,7 +53,7 @@ export default function Company({ company }: CompanyProps) {
               label="Id"
               rules={[{ required: true }]}
               hidden
-            ></Form.Item>
+            />
 
             <Form.Item
               name={["name"]}
@@ -75,18 +75,16 @@ export default function Company({ company }: CompanyProps) {
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const { data } = await api.get("companies", {
-    params: {},
-  })
+export default Company
 
-  const paths = data.map(company => {
-    return {
-      params: {
-        id: company.id.toString(),
-      },
+export const getStaticPaths: GetStaticPaths = async () => {
+  const { data } = await api.get<Company[]>("companies")
+
+  const paths = data.map(company => ({
+    params: {
+      id: company.id.toString(),
     }
-  })
+  }))
 
   return {
     paths,
@@ -96,15 +94,11 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ctx => {
   const { id } = ctx.params
-  const { data } = await api.get("companies", {
-    params: {},
-  })
-
-  const result = data.find(element => element.id == id)
+  const { data } = await api.get<Company>(`companies/${id}`)
 
   const company = {
-    id: result.id,
-    name: result.name,
+    id: data.id,
+    name: data.name,
   }
 
   return {
